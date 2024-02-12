@@ -1,0 +1,22 @@
+.nav {
+    grid-area: nav;
+    background-color: #A5A5A5;
+    padding-top: 10px;
+    padding-left: 20px;
+    border-radius: 10px;
+}
+
+.item{
+    padding-bottom: 10px;
+    padding-top: 10px;
+
+}
+.item a{
+    color: white;
+    text-decoration: none;
+
+}
+
+.item [aria-current="page"] {
+    color: gold;
+}

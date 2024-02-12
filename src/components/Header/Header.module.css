@@ -1,0 +1,27 @@
+.header {
+    grid-area: header;
+    background-color: #313030 ;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+
+    /*background: linear-gradient(180deg,#212121, #1C1C1C, #282828, #403A3A, #6C6874 );*/
+}
+
+
+.headerContent{
+    margin: 0 auto;
+    width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.header img {
+    width: 30px;
+
+}
+
+.loginBlock{
+    text-align: right;
+
+}

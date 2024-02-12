@@ -1,0 +1,14 @@
+.userPhoto {
+    width: 100px;
+    height: 100px;
+}
+
+.selectedPage{
+    font-weight: bold;
+}
+
+.cheloveniki{
+    padding-left: 10px;
+    padding-top: 10px ;
+    padding-bottom: 10px;
+}
