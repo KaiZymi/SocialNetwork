@@ -55,14 +55,14 @@ class App extends React.Component {
 					<div className="app-wrapper-content">
 						<Suspense  fallback={<div> loading... </div>}>
 							<Routes>
+								<Route path='/' element={<ProfileContainer/>}/>
 								<Route path='/dialogs/*' element={<DialogsContainer/>}/>
 								
-								<Route path='/users/*' element={
-									<UsersContainer/>
-								}/>
+								<Route path='/users/*' element={<UsersContainer/>}/>
 
 								<Route path='/profile/:userId?' element={<ProfileContainer/>}/>
 								<Route path='/login/' element={<Login/>}/>
+								<Route path='*' element={<div>404</div>}/>
 
 							</Routes>
 						</Suspense>
