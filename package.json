@@ -8,6 +8,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/redux-form": "^8.3.10",
     "axios": "^1.4.0",
     "gh-pages": "^6.1.1",
     "react": "^18.2.0",
@@ -51,5 +52,12 @@
     "transformIgnorePatterns": [
       "node_modules/(?!(react-leaflet|@react-leaflet|d3-*|axios))"
     ]
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.25",
+    "@types/react": "^18.2.63",
+    "@types/react-dom": "^18.2.20",
+    "typescript": "^5.3.3"
   }
 }
