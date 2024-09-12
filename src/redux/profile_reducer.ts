@@ -93,7 +93,7 @@ export const saveProfile = (profile: ProfileType): ThunkType => async (dispatch,
 	const userId = getState().auth.userId;
 	const response = await profileAPI.saveProfile(profile)
 
-	if(response.data.resultCode ===0){
+	if(response.data.resultCode === 0){
         if (userId != null){
             await dispatch(getUserProfile(userId))
         }else{
@@ -101,8 +101,8 @@ export const saveProfile = (profile: ProfileType): ThunkType => async (dispatch,
         }
 
 	} else{
-		dispatch(stopSubmit("edit-profile", {_error: response.data.messages[0] }));
-		return Promise.reject(response.data.messages[0]);
+		dispatch(stopSubmit("edit-profile", {_error: response.messages[0] }));
+		return Promise.reject(response.messages[0]);
 	}
 }
 

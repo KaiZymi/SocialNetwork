@@ -4,10 +4,11 @@ import dialogsReducer from "./dialogs_reducer"
 import sidebarReducer from "./sidebar_reducer"
 import usersReducer from "./users_reducer"
 import authReducer from "./auth_reducer"
-import thunkMiddleWare, {ThunkAction} from "redux-thunk"
-import {Action, applyMiddleware, combineReducers, createStore} from "@reduxjs/toolkit"
+import thunkMiddleWare, {ThunkAction, ThunkDispatch} from "redux-thunk"
+import {Action, AnyAction, applyMiddleware, combineReducers, createStore} from "@reduxjs/toolkit"
 import {reducer as formReducer} from 'redux-form'
 import appReducer from "./app_reducer"
+import chatReducer from "./chat_reducer";
 
 
 let rootReducer = combineReducers({
@@ -17,7 +18,8 @@ let rootReducer = combineReducers({
     usersPage: usersReducer,
     auth: authReducer,
     form: formReducer,
-	app: appReducer
+	app: appReducer,
+    chat: chatReducer
 })
 
 

@@ -12,11 +12,11 @@ import {UsersType} from "../../types/typeReducers";
 type PropsType = {
     user: UsersType,
     followingInProgress: Array<number>,
-    unfollow: (userId:number) => void,
-    follow: (userId:number) => void
+    unfollowHandler: (userId:number) => void,
+    followHandler: (userId:number) => void
 }
 
-const User: FC<PropsType> = ({user, followingInProgress, unfollow, follow}) => {
+const User: FC<PropsType> = ({user, followingInProgress, unfollowHandler, followHandler}) => {
 	return <div>
                 <span>
                     <div>
@@ -31,10 +31,10 @@ const User: FC<PropsType> = ({user, followingInProgress, unfollow, follow}) => {
                         {user.followed
 							? <button disabled={followingInProgress
 								.some(id => id === user.id)}
-									  onClick={() => { unfollow(user.id) }}>
+									  onClick={() => { unfollowHandler(user.id) }}>
 								Unfollow</button>
 							: <button disabled={followingInProgress.some(id => id === user.id)}
-									  onClick={() => { follow(user.id) }}>
+									  onClick={() => { followHandler(user.id) }}>
 								Follow</button>}
                     </div>
 
