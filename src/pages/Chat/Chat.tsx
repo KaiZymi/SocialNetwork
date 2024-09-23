@@ -6,7 +6,6 @@ import {Messages} from "./Messages";
 import {AddMessageForm} from "./AddMessageForm";
 
 export const Chat: FC<any> = () => {
-
 	const dispatch: any = useDispatch()
 	const status = useSelector((state: AppStateType) => state.chat.status)
 

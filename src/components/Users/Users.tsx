@@ -59,16 +59,16 @@ export const Users = () => {
                 break
         }
 
-        dispatch(requestUsers(actualPage, pageSize, actualFilter))
+        dispatch(requestUsers({currentPage:actualPage, pageSize, filter:actualFilter}))
     }, []);
 
     const onPageChanged = (pageNumber:number) => {
-        dispatch(requestUsers(pageNumber, pageSize, filter))
+        dispatch(requestUsers({currentPage:pageNumber, pageSize, filter}))
 
     }
 
     const onFilterChanged = (filter: FilterType) => {
-        dispatch(requestUsers(1, pageSize, filter))
+        dispatch(requestUsers({currentPage:1, pageSize, filter}))
     }
 
     const followHandler = (userId: number) => {

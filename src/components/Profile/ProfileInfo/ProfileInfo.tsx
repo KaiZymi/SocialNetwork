@@ -3,10 +3,13 @@ import React, {ChangeEvent, FC, useState} from 'react';
 // @ts-ignore
 import userPhoto from "../../../assets/images/user.png";
 import Preloader from "../../../common/preloader/Preloader";
-import ProfileStatus from "./ProfileStatus"
-import ProfileDataForm from "./ProfileData/ProfileDataForm";
+import {ProfileStatus} from "./ProfileStatus"
+import {ProfileDataForm} from "./ProfileData/ProfileDataForm";
 import {ProfileType} from "../../../types/typeReducers";
 import ProfileData from "./ProfileData/ProfileData";
+import {saveProfile} from "../../../redux/profile_reducer";
+import {useDispatch} from "react-redux";
+import {FieldValues} from "react-hook-form";
 
 
 type PropsType = {
@@ -15,18 +18,32 @@ type PropsType = {
     updateUserStatus: (status:string) => void
     isOwner: boolean
     savePhoto: (file: File) => void
-    saveProfile: (formData:any) => Promise<void>
+
 
 }
+
+type Data = {
+	formData: ProfileType
+	FieldValues: FieldValues
+}
+
 
 
 const ProfileInfo: FC<PropsType> = (props) => {
 
-	const [editMode, setEditMode] = useState(false)
 
-	const onSubmit = (formData:ProfileType) => {
+
+	const [editMode, setEditMode] = useState(false)
+	const dispatch:any = useDispatch();
+
+	// const saveProfileCreator = (profile: ProfileType) => {
+	// 	dispatch(saveProfile(profile))
+	// }
+
+
+	const onSubmit = (data: Data) => {
         //todo: remove then
-		props.saveProfile(formData).then(() => {
+		dispatch(saveProfile(data.formData)).then(() => {
 			setEditMode(false)
 		})
 	}
@@ -41,6 +58,7 @@ const ProfileInfo: FC<PropsType> = (props) => {
 			props.savePhoto(e.target.files[0])
 		}
 	}
+
 
 
 	return (

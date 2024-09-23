@@ -1,12 +1,10 @@
 .app-wrapper {
-
     margin: 0 auto;
-
 }
 
 .block-header{
-
 }
+
 .block-content{
     display: grid;
     margin: 0 auto;

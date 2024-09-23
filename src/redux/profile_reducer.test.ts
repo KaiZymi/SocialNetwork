@@ -1,4 +1,4 @@
-import profileReducer, {profileActions} from "./profile_reducer";
+import {addPostActionCreator, deletePost, profileSlice} from "./profile_reducer";
 import {PostType} from "../types/typeReducers";
 
 let state = {
@@ -11,16 +11,16 @@ let state = {
 }
 
 it('length of posts should be incremented', () =>{
-	let action = profileActions.addPostActionCreator("ouououo")
-	let newState = profileReducer(state, action)
+	let action = addPostActionCreator("ouououo")
+	let newState = profileSlice.reducer(state, action)
 
 	expect(newState.posts.length).toBe(3)
 })
 
 
 it('length deleting of message should be decrement', () =>{
-	let action = profileActions.deletePost(1)
-	let newState = profileReducer(state, action)
+	let action = deletePost(1)
+	let newState = profileSlice.reducer(state, action)
 
 	expect(newState.posts.length).toBe(2)
 })

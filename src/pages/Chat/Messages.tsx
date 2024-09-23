@@ -6,7 +6,6 @@ import {Message} from "./Message";
 export const Messages: FC<{}> = () => {
 	const messages = useSelector((state: AppStateType) => state.chat.messages)
 	const messagesAnchorRef = useRef<HTMLDivElement>(null)
-
 	const [isAutoScroll, setIsAutoScroll] = useState(true)
 
 	const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
@@ -18,6 +17,7 @@ export const Messages: FC<{}> = () => {
 		}
 
 	}
+
 
 	useEffect(() => {
 		if (isAutoScroll) {

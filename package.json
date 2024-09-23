@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://kaizymi.github.io/SocialNetwork/",
   "dependencies": {
-    "@reduxjs/toolkit": "^2.0.1",
+    "@reduxjs/toolkit": "^2.2.7",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -16,6 +16,7 @@
     "gh-pages": "^6.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.53.0",
     "react-redux": "^8.0.7",
     "react-router-dom": "^6.10.0",
     "react-scripts": "^5.0.1",

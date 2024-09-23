@@ -1,18 +1,45 @@
 import {maxLengthCreator, required} from "../../../../utils/validators/validations";
 import s from "../MyPosts.module.css";
-import {InjectedFormProps, reduxForm} from "redux-form";
-import {createField, GetStringKeys, Textarea} from "../../../../common/FormsControls/FormsControls";
+
+import {GetStringKeys} from "../../../../common/FormsControls/FormsControls";
 import React, {FC} from "react";
+import {Controller, useForm} from "react-hook-form";
+import {addPostActionCreator} from "../../../../redux/profile_reducer";
+
+
+export const AddPostForm: FC<{}> = (props) => {
+    const {control, handleSubmit} = useForm<any>({ mode: "onChange"})
 
 
 
-const AddPostForm: FC<InjectedFormProps<AddPostFormValuesType, PropsType> & PropsType> = (props) => {
+    const addPost = (values:AddPostFormValuesType) =>{
+        addPostActionCreator(values.newPostText)
+    }
+
+
     const maxLength = maxLengthCreator(15)
     return (
         <div className={s.postsBlock}>
-            <form onSubmit={props.handleSubmit}>
+            <form onSubmit={handleSubmit(addPost)}>
                 <div>
-                    {createField<addPostFormKeys>("", 'newPostText', [required, maxLength], Textarea)}
+
+                    <Controller
+                        name={"newPostText"}
+                        control={control}
+                        rules = {{validate:{
+                                required,
+                                maxLength
+
+                            }}}
+
+                        render={({field}) => <textarea placeholder={"Write messages"} {...field}/>}
+
+                    />
+
+                    {/*{createField<addPostFormKeys>("", 'newPostText', [required, maxLength], Textarea)}*/}
+
+
+
                 </div>
                 <div>
                     <button>Add post</button>
@@ -22,11 +49,11 @@ const AddPostForm: FC<InjectedFormProps<AddPostFormValuesType, PropsType> & Prop
     )
 }
 
-const PostReduxForm = reduxForm<AddPostFormValuesType & PropsType>({
-    form: 'postsForm'
-})(AddPostForm)
+// const PostReduxForm = reduxForm<AddPostFormValuesType & PropsType>({
+//     form: 'postsForm'
+// })(AddPostForm)
 
-export default PostReduxForm
+// export default PostReduxForm
 
 
 type PropsType = {}

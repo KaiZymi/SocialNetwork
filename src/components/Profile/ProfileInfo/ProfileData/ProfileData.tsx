@@ -9,33 +9,33 @@ type OwnPropsProfileData = {
     goToEditMode: () => void
 }
 
-const ProfileData: FC<OwnPropsProfileData> = (props) => {
+const ProfileData: FC<OwnPropsProfileData> = ({isOwner, goToEditMode, profile}) => {
     return <div>
 
-        {props.isOwner && <button onClick={props.goToEditMode}>edit</button>}
+        {isOwner && <button onClick={goToEditMode}>edit</button>}
 
         <div>
-            <b>Full name</b> : {props.profile.fullName}
+            <b>Full name</b> : {profile.fullName}
         </div>
         <div>
-            <b>Looking for a job</b> : {props.profile.lookingForAJob ? "yes" : "no"}
+            <b>Looking for a job</b> : {profile.lookingForAJob ? "yes" : "no"}
         </div>
 
-        {props.profile.lookingForAJob &&
+        {profile.lookingForAJob &&
 			<div>
-				<b>My professional skills</b>: {props.profile.lookingForAJobDescription}
+				<b>My professional skills</b>: {profile.lookingForAJobDescription}
 			</div>
         }
 
         <div>
-            <b>About me</b>: {props.profile.aboutMe}
+            <b>About me</b>: {profile.aboutMe}
         </div>
         <div>
             <b>Contacts</b>:
             {Object
-                .keys(props.profile.contacts)
+                .keys(profile.contacts)
                 .map(key => {
-            return <Contact key={key} contactTitle={key} contactValue={props.profile.contacts[key as keyof ContactsType]}/>
+            return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key as keyof ContactsType]}/>
         })}
         </div>
 

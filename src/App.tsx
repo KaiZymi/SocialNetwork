@@ -1,30 +1,27 @@
 import "./App.css";
 
 
-import {Link, NavLink, Route, Routes, useParams} from "react-router-dom";
-import React, {FC, Suspense, useEffect} from "react";
-import Login from "./components/Login/Login";
-import {connect, useDispatch, useSelector} from "react-redux";
-import {compose} from "redux";
+import {Link, Route, Routes, useLocation} from "react-router-dom";
+import React, {Suspense, useEffect, useState} from "react";
+import {Login} from "./components/Login/Login";
+import {useDispatch, useSelector} from "react-redux";
 import {initializeApp} from "./redux/app_reducer";
 import Preloader from "./common/preloader/Preloader";
 import './assets/styles/global.css'
-import ProfileContainer from "./components/Profile/ProfileContainer";
 
 
 import {UsersPage} from "./components/Users/UsersContainer";
 import {AppStateType} from "./redux/store";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
+
 
 // const UsersContainer = lazy(() => import('./components/Users/UsersContainer'));
 // const ProfileContainer = lazy(() => import('./components/Profile/ProfileContainer'));
-
-import {UserOutlined, TeamOutlined, MessageOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import {getIsFetching} from "./redux/selecter_users";
+import {MessageOutlined, TeamOutlined, UserOutlined} from '@ant-design/icons';
+import type {MenuProps} from 'antd';
+import {Breadcrumb, Layout, Menu, theme} from 'antd';
 import {Header} from "./components/Header/Header";
 import {ChatPage} from "./pages/Chat/ChatPage";
+import {Profile} from "./components/Profile/Profile";
 
 
 const { Content, Footer, Sider } = Layout;
@@ -33,41 +30,72 @@ const { Content, Footer, Sider } = Layout;
 
 
 
-let navList = [["Profile", UserOutlined], ["Chat", MessageOutlined], ["Users", TeamOutlined]];
+// let navList = [["Profile", UserOutlined], ["Chat", MessageOutlined], ["Users", TeamOutlined]];
+//
+// const items2: MenuProps['items'] = navList.map(
+// 	(page, index) => {
+//
+// 		const key = String(index + 1);
+//
+// 		return {
+// 			key: `${key}`,
+// 			icon: React.createElement(page[1]),
+// 			label: (<Link to={`/${page[0].toString().toLowerCase()}`} > {`${page[0]}`}</Link>)
+//
+// 		};
+// 	},
+// );
 
-const items2: MenuProps['items'] = navList.map(
-	(page, index) => {
+const navList = [
+	["Profile", UserOutlined, '/'],
+	["Chat", MessageOutlined, '/chat'],
+	["Users", TeamOutlined, '/users']
+];
 
-		const key = String(index + 1);
-
-		return {
-			key: `${key}`,
-			icon: React.createElement(page[1]),
-			label: (<Link to={`/${page[0].toString().toLowerCase()}`} > {`${page[0]}`}</Link>)
-
-		};
-	},
-);
-
-
+const items2 = navList.map((page:any, index) => ({
+	key: `${index + 1}`,
+	icon: React.createElement(page[1]),
+	label: (<Link to={page[2]}>{page[0]}</Link>)
+}));
 
 
 const App = () => {
 
+
 	const dispatch:any = useDispatch()
+	const location = useLocation();
+
+	const initialized = useSelector((state:AppStateType) => state.app.initialized);
+
+	const getActiveKey = () => {
+		const path = location.pathname;
+		const item = navList.find(([, , url]) => url === path);
+		return item ? `${navList.indexOf(item) + 1}` : '1'; // Default to '1' if not found
+	};
+	const [selectedKey, setSelectedKey] = useState(getActiveKey);
+
+	const {
+		token: { colorBgContainer, borderRadiusLG },
+	} = theme.useToken();
+
 
 
 	useEffect(() => {
 		dispatch(initializeApp())
 	}, []);
 
-	const initialized = useSelector((state:AppStateType) => state.app.initialized);
 
+	useEffect(() => {
+		const handleRouteChange = () => {
+			setSelectedKey(getActiveKey());
+		};
 
+		handleRouteChange();
+		return () =>{
 
-	const {
-		token: { colorBgContainer, borderRadiusLG },
-	} = theme.useToken();
+		}
+	}, [location]);
+
 
 	return(
 
@@ -103,12 +131,18 @@ const App = () => {
 					>
 						<Menu
 							mode="inline"
-							defaultSelectedKeys={['1']}
+							defaultSelectedKeys={[selectedKey]}
 							style={{
 								height: '100%',
 							}}
-							items={items2}
-						/>
+						>
+							{items2.map(item => (
+								<Menu.Item key={item.key} icon={item.icon}>
+									<Link to={item.label.props.to}>{item.label.props.children}</Link>
+								</Menu.Item>
+							))}
+
+						</Menu>
 					</Sider>
 					<Content
 						style={{
@@ -118,12 +152,12 @@ const App = () => {
 					>
 						<Suspense fallback={<div> loading... </div>}>
 							<Routes>
-								<Route path='/' element={<ProfileContainer/>}/>
+								<Route path='/' element={<Profile/>}/>
 								<Route path='/chat/*' element={<ChatPage/>}/>
 
 								<Route path='/users/*'  element={<UsersPage  pageTitle={"Users"}/>}/>
 
-								<Route path='/profile/:userId?' element={<ProfileContainer/>}/>
+								<Route path='/profile/:userId?' element={<Profile/>}/>
 								<Route path='/login/' element={<Login/>}/>
 								<Route path='*' element={<div>404</div>}/>
 

@@ -1,44 +1,42 @@
-
-import profileReducer from "./profile_reducer"
-import dialogsReducer from "./dialogs_reducer"
+import {profileSlice} from "./profile_reducer"
 import sidebarReducer from "./sidebar_reducer"
-import usersReducer from "./users_reducer"
-import authReducer from "./auth_reducer"
-import thunkMiddleWare, {ThunkAction, ThunkDispatch} from "redux-thunk"
-import {Action, AnyAction, applyMiddleware, combineReducers, createStore} from "@reduxjs/toolkit"
+import {usersSlice} from "./users_reducer"
+import {authSlice} from "./auth_reducer"
+import thunk, {ThunkAction} from "redux-thunk"
+import {Action, configureStore} from "@reduxjs/toolkit"
 import {reducer as formReducer} from 'redux-form'
-import appReducer from "./app_reducer"
-import chatReducer from "./chat_reducer";
+import {appSlice} from "./app_reducer"
+import {chatSlice} from "./chat_reducer";
+import {useDispatch} from "react-redux";
 
-
-let rootReducer = combineReducers({
-    profilePage: profileReducer,
-    dialogsPage: dialogsReducer,
+let rootReducer = {
+    profilePage: profileSlice.reducer,
     sidebar: sidebarReducer,
-    usersPage: usersReducer,
-    auth: authReducer,
+    usersPage: usersSlice.reducer,
+    auth: authSlice.reducer,
     form: formReducer,
-	app: appReducer,
-    chat: chatReducer
+    app: appSlice.reducer,
+    chat: chatSlice.reducer
+}
+
+export const store = configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware):any => getDefaultMiddleware().concat(thunk),
+    devTools: true
 })
 
 
-type rootReducerType = typeof rootReducer
-export type AppStateType = ReturnType<rootReducerType>
-
-
-
-export type InferActionsTypes<T> = T extends {[key: string]: (...args: any[]) => infer U} ? U : never
-export type BaseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>
-
-
-
-
-// @ts-ignore
-let store = createStore( rootReducer, applyMiddleware(thunkMiddleWare))
 
 // @ts-ignore
 window.store = store
 
 
 export default store
+
+
+export type AppStateType = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch;
+// export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
+
+export type InferActionsTypes<T> = T extends {[key: string]: (...args: any[]) => infer U} ? U : never
+export type BaseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>
