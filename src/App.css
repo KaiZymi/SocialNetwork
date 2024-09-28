@@ -8,11 +8,8 @@
 .block-content{
     display: grid;
     margin: 0 auto;
-    width: 1200px;
-    grid-template-areas:
-        "nav content";
-    grid-template-columns: 2fr 10fr;
-    column-gap: 10px;
+    width: 1440px;
+
 
 
 }

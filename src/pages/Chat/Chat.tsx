@@ -1,13 +1,14 @@
 import React, {FC, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../redux/store";
-import {startMessagesListening, stopMessagesListening} from "../../redux/chat_reducer";
+import {AppStateType} from "../../features/store";
+import {startMessagesListening, stopMessagesListening} from "../../features/chat/chat_reducer";
 import {Messages} from "./Messages";
 import {AddMessageForm} from "./AddMessageForm";
+import {getStatusSelector} from "../../features/chat/selector_chat";
 
 export const Chat: FC<any> = () => {
 	const dispatch: any = useDispatch()
-	const status = useSelector((state: AppStateType) => state.chat.status)
+	const status = useSelector(getStatusSelector)
 
 	useEffect(() => {
 

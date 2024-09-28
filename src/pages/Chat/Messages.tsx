@@ -1,10 +1,11 @@
 import React, {FC, useEffect, useRef, useState} from "react";
 import {useSelector} from "react-redux";
-import {AppStateType} from "../../redux/store";
+import {AppStateType} from "../../features/store";
 import {Message} from "./Message";
+import {getMessagesSelector} from "../../features/chat/selector_chat";
 
 export const Messages: FC<{}> = () => {
-	const messages = useSelector((state: AppStateType) => state.chat.messages)
+	const messages = useSelector(getMessagesSelector)
 	const messagesAnchorRef = useRef<HTMLDivElement>(null)
 	const [isAutoScroll, setIsAutoScroll] = useState(true)
 
@@ -21,9 +22,11 @@ export const Messages: FC<{}> = () => {
 
 	useEffect(() => {
 		if (isAutoScroll) {
-			messagesAnchorRef.current?.scrollIntoView({behavior: 'smooth'})
+			setTimeout(() => {
+				messagesAnchorRef.current?.scrollIntoView({ behavior: "smooth" });
+			}, 500);
 		}
-	}, [messages]);
+	}, [messages, isAutoScroll]);
 
 
 	return <div style={{height: "400px", overflowY: 'auto'}} onScroll={scrollHandler}>
