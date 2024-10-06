@@ -1,5 +1,5 @@
 import s from './ProfileInfo.module.css'
-import React, {ChangeEvent, FC, useState} from 'react';
+import React, {ChangeEvent, FC, useEffect, useState} from 'react';
 // @ts-ignore
 import userPhoto from "../../../assets/images/user.png";
 import Preloader from "../../../common/preloader/Preloader";
@@ -7,19 +7,19 @@ import {ProfileStatus} from "./ProfileStatus"
 import {ProfileDataForm} from "./ProfileData/ProfileDataForm";
 import {ProfileType} from "../../../types/typeReducers";
 import ProfileData from "./ProfileData/ProfileData";
-import {saveProfile} from "../../../features/profile/profile_reducer";
-import {useDispatch} from "react-redux";
+import {getUserProfile, saveProfile} from "../../../features/profile/profile_reducer";
+import {useDispatch, useSelector} from "react-redux";
 import {FieldValues} from "react-hook-form";
 import {Button, Input, Upload} from "antd";
 import { UploadOutlined } from '@ant-design/icons';
+import {getProfileSelector} from "../../../features/profile/selector_profile";
+import store from "../../../features/store";
 
 type PropsType = {
-    profile: ProfileType | null
     status: string
     updateUserStatus: (status:string) => void
     isOwner: boolean
     savePhoto: (file: File) => void
-
 
 }
 
@@ -35,20 +35,31 @@ const ProfileInfo: FC<PropsType> = (props) => {
 	const dispatch:any = useDispatch();
 	const [uploading, setUploading] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('');
+	const profile = useSelector(getProfileSelector)
+	const [loading, setLoading] = useState(false);
 
-	// const saveProfileCreator = (profile: ProfileType) => {
-	// 	dispatch(saveProfile(profile))
-	// }
-
-
-	const onSubmit = (data: ProfileType) => {
-        //todo: remove then
-		dispatch(saveProfile(data)).then(() => {
+	useEffect(() => {
+		console.log('RerenderProfileInfo')
+		if (editMode && !uploading) {
 			setEditMode(false)
-		})
+		}
+	}, [profile, uploading]);
+
+	const onSubmit = async (data: ProfileType) => {
+		setLoading(true);
+		try {
+			await dispatch(saveProfile(data));
+		} finally {
+			//Change method get profile before editMode
+			setLoading(false);
+
+			dispatch(getUserProfile(store.getState().auth.userId as number)).then(() => setEditMode(false));
+
+
+		}
 	}
 
-	if (!props.profile) {
+	if (!profile) {
 		return <Preloader/>
 	}
 
@@ -78,8 +89,9 @@ const ProfileInfo: FC<PropsType> = (props) => {
 
 	return (
 		<>
+			{loading ?  <Preloader/> : null}
 			<div className={s.description_block}>
-				<img className={s.img} src={props.profile.photos.large != null ? props.profile.photos.large : userPhoto}
+				<img className={s.img} src={profile?.photos.large != null ? profile.photos.large : userPhoto}
 					 alt="ava"/>
 				{props.isOwner &&
 					<Upload
@@ -98,9 +110,9 @@ const ProfileInfo: FC<PropsType> = (props) => {
 				}
 
 				{editMode
-					? <ProfileDataForm  profile={props.profile} onSubmit={onSubmit}/>
+					? <ProfileDataForm  profile={profile} toCloseEditMode = {closeEditMode} onSubmit={onSubmit}/>
 					: <ProfileData toOpenEditMode={openEditMode} toCloseEditMode = {closeEditMode}
-								   profile={props.profile} isOwner={props.isOwner}/>
+								   profile={profile} isOwner={props.isOwner}/>
 				}
 
 				<ProfileStatus updateUserStatus={props.updateUserStatus}
@@ -114,3 +126,7 @@ const ProfileInfo: FC<PropsType> = (props) => {
 
 
 export default ProfileInfo
+
+function getState() {
+    throw new Error('Function not implemented.');
+}

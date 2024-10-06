@@ -23,12 +23,7 @@ export const AddMessageForm: FC<{}> = ({}) => {
 		if (!message) {
 			return
 		}
-		// dispatch(messagesReceived([{
-		// 	userId: profile?.userId as number,
-		// 	message,
-		// 	photo: profile?.photos.small as string,
-		// 	userName: profile?.fullName as string
-		// }]));
+
 
 		dispatch(sendMessage(message))
 
@@ -46,12 +41,12 @@ export const AddMessageForm: FC<{}> = ({}) => {
 				maxLength={100}
 				placeholder={'Введите своё сообщение'}
 				showCount
-				style = {{resize: 'none', width: '40%'}}
+				style={{resize: 'none', width: '40%'}}
 			/>
 		</div>
 		<div>
 			<Button disabled={status !== 'ready'} onClick={sendMessageHandler}
-					icon={<SendOutlined />} iconPosition = {'end'}
+					icon={<SendOutlined/>} iconPosition={'end'}
 			>Send</Button>
 
 		</div>

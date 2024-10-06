@@ -8,17 +8,17 @@ import {AppStateType} from "../../../features/store";
 
 export const MyPosts: FC<{}> = React.memo((props) => {
 
-	const posts = useSelector((state: AppStateType)=> state.profilePage.posts)
+	const posts = useSelector((state: AppStateType) => state.profilePage.posts)
 
-	let postsElements = posts.map(post => <Post message={post.message} likesCount={post.likesCount}/>)
+	let postsElements = posts.map(post => <Post key ={post.id} message={post.message} likesCount={post.likesCount}/>)
 
 	return (
 		<div>
 			<div>
 				<h1>My posts</h1>
-			</div> 
+			</div>
 
-			<AddPostForm />
+			<AddPostForm/>
 
 			<div className={s.posts}>
 				{postsElements}

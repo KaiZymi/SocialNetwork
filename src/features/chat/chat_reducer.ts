@@ -13,7 +13,7 @@ let initialState = {
 let _newMessageHandler: ((messages: ChatMessageAPIType[]) => void) | null = null
 
 const newMessageHandlerCreator = (dispatch: Dispatch) => {
-	if(_newMessageHandler === null){
+	if (_newMessageHandler === null) {
 		_newMessageHandler = (messages) => {
 			dispatch(messagesReceived(messages))
 		}
@@ -25,8 +25,8 @@ const newMessageHandlerCreator = (dispatch: Dispatch) => {
 
 let _statusChangedHandler: ((status: StatusType) => void) | null = null
 
-const statusChangedHandlerCreator = (dispatch: Dispatch) =>{
-	if(_statusChangedHandler === null){
+const statusChangedHandlerCreator = (dispatch: Dispatch) => {
+	if (_statusChangedHandler === null) {
 		_statusChangedHandler = (status) => {
 			dispatch(statusChanged(status))
 		}
@@ -36,36 +36,35 @@ const statusChangedHandlerCreator = (dispatch: Dispatch) =>{
 	return _statusChangedHandler
 }
 
-export const startMessagesListening = createAsyncThunk('chat/startMessagesListening', async (_, {dispatch}:any) =>{
+export const startMessagesListening = createAsyncThunk('chat/startMessagesListening', async (_, {dispatch}: any) => {
 	chatAPI.start()
-	chatAPI.subscribe('messages-received',newMessageHandlerCreator(dispatch))
-	chatAPI.subscribe('status-changed',statusChangedHandlerCreator(dispatch))
+	chatAPI.subscribe('messages-received', newMessageHandlerCreator(dispatch))
+	chatAPI.subscribe('status-changed', statusChangedHandlerCreator(dispatch))
 })
 
-export const stopMessagesListening = createAsyncThunk('chat/stopMessagesListening', async (_, {dispatch}:any) =>{
-	chatAPI.unsubscribe('messages-received',newMessageHandlerCreator(dispatch))
-	chatAPI.unsubscribe('status-changed',statusChangedHandlerCreator(dispatch))
+export const stopMessagesListening = createAsyncThunk('chat/stopMessagesListening', async (_, {dispatch}: any) => {
+	chatAPI.unsubscribe('messages-received', newMessageHandlerCreator(dispatch))
+	chatAPI.unsubscribe('status-changed', statusChangedHandlerCreator(dispatch))
 	dispatch(clearMessages())
 	chatAPI.stop()
 })
 
-export const sendMessage = createAsyncThunk('chat/sendMessage', async (message:string, {dispatch}:any) =>{
+export const sendMessage = createAsyncThunk('chat/sendMessage', async (message: string, {dispatch}: any) => {
 	chatAPI.sendMessage(message)
 })
-
 
 
 export const chatSlice = createSlice({
 	name: 'chat',
 	initialState,
-	reducers:{
+	reducers: {
 		messagesReceived: (state, action: PayloadAction<ChatMessageAPIType[]>) => {
-			const newMessages = action.payload.map( m => ({...m, id: v1()}))
-			state.messages = [...state.messages, ...newMessages].filter((m,index,array) => index >= array.length - 100)
+			const newMessages = action.payload.map(m => ({...m, id: v1()}))
+			state.messages = [...state.messages, ...newMessages].filter((m, index, array) => index >= array.length - 100)
 
 
 		},
-		statusChanged: (state,action) => {
+		statusChanged: (state, action) => {
 			state.status = action.payload
 		},
 		clearMessages: (state) => {
@@ -77,16 +76,13 @@ export const chatSlice = createSlice({
 export const {messagesReceived, statusChanged, clearMessages} = chatSlice.actions
 
 
-
 // export type initialStateType = typeof initialState
 //
 // type ActionsTypes = InferActionsTypes<typeof actions>
 //
 // type ThunkType = BaseThunkType<ActionsTypes | FormAction>
 
-type ChatMessageType = ChatMessageAPIType & {id:string}
-
-
+type ChatMessageType = ChatMessageAPIType & { id: string }
 
 
 // const chatReducer = (state = initialState, action: ActionsTypes):initialStateType => {

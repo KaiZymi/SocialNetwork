@@ -1,6 +1,8 @@
-import React, {FC} from "react";
+import React, {FC, useEffect} from "react";
 import {ContactsType, ProfileType} from "../../../../types/typeReducers";
 import {Button} from "antd";
+import {useSelector} from "react-redux";
+import {getProfileSelector} from "../../../../features/profile/selector_profile";
 
 
 
@@ -12,6 +14,8 @@ type OwnPropsProfileData = {
 }
 
 const ProfileData: FC<OwnPropsProfileData> = ({isOwner, toOpenEditMode, toCloseEditMode, profile}) => {
+    console.log("rerenderProfileData")
+
     return <div>
 
         {isOwner && <Button size={'small'} onClick={toOpenEditMode}>edit</Button>}
@@ -19,26 +23,29 @@ const ProfileData: FC<OwnPropsProfileData> = ({isOwner, toOpenEditMode, toCloseE
         <div>
             <b>Full name</b> : {profile.fullName}
         </div>
+
+        <div>
+            <b>About me</b>: {profile.aboutMe}
+        </div>
+
         <div>
             <b>Looking for a job</b> : {profile.lookingForAJob ? "yes" : "no"}
         </div>
 
         {profile.lookingForAJob &&
-			<div>
-				<b>My professional skills</b>: {profile.lookingForAJobDescription}
-			</div>
+            <div>
+                <b>My professional skills</b>: {profile.lookingForAJobDescription}
+            </div>
         }
 
-        <div>
-            <b>About me</b>: {profile.aboutMe}
-        </div>
         <div>
             <b>Contacts</b>:
             {Object
                 .keys(profile.contacts)
                 .map(key => {
-            return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key as keyof ContactsType]}/>
-        })}
+                    return <Contact key={key} contactTitle={key}
+                                    contactValue={profile.contacts[key as keyof ContactsType]}/>
+                })}
         </div>
 
     </div>

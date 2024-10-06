@@ -17,18 +17,13 @@ import {AppStateType} from "./features/store";
 // const UsersContainer = lazy(() => import('./components/Users/UsersContainer'));
 // const ProfileContainer = lazy(() => import('./components/Profile/ProfileContainer'));
 import {MessageOutlined, TeamOutlined, UserOutlined} from '@ant-design/icons';
-import {Col, MenuProps, Row} from 'antd';
-import {Breadcrumb, Layout, Menu, theme} from 'antd';
+import {Col, Layout, Menu, Row, theme} from 'antd';
 import {Header} from "./pages/Header/Header";
 import {ChatPage} from "./pages/Chat/ChatPage";
 import {Profile} from "./pages/Profile/Profile";
 
 
-
-const { Content, Footer, Sider } = Layout;
-
-
-
+const {Content, Footer, Sider} = Layout;
 
 
 // let navList = [["Profile", UserOutlined], ["Chat", MessageOutlined], ["Users", TeamOutlined]];
@@ -53,7 +48,7 @@ const navList = [
 	["Users", TeamOutlined, '/users']
 ];
 
-const items2 = navList.map((page:any, index) => ({
+const items2 = navList.map((page: any, index) => ({
 	key: `${index + 1}`,
 	icon: React.createElement(page[1]),
 	label: (<Link to={page[2]}>{page[0]}</Link>)
@@ -62,11 +57,10 @@ const items2 = navList.map((page:any, index) => ({
 
 const App = () => {
 
-
-	const dispatch:any = useDispatch()
+	const dispatch: any = useDispatch()
 	const location = useLocation();
 
-	const initialized = useSelector((state:AppStateType) => state.app.initialized);
+	const initialized = useSelector((state: AppStateType) => state.app.initialized);
 
 	const getActiveKey = () => {
 		const path = location.pathname;
@@ -76,9 +70,8 @@ const App = () => {
 	const [selectedKey, setSelectedKey] = useState(getActiveKey);
 
 	const {
-		token: { colorBgContainer, borderRadiusLG },
+		token: {colorBgContainer, borderRadiusLG},
 	} = theme.useToken();
-
 
 
 	useEffect(() => {
@@ -92,13 +85,13 @@ const App = () => {
 		};
 
 		handleRouteChange();
-		return () =>{
+		return () => {
 
 		}
 	}, [location]);
 
 
-	return(
+	return (
 
 		<Layout>
 			{!initialized ? <Preloader/> : null}
@@ -107,7 +100,7 @@ const App = () => {
 			<Content
 
 				style={{
-					paddingTop:'20px',
+					paddingTop: '20px',
 					padding: '0 48px',
 				}}
 			>
@@ -133,14 +126,12 @@ const App = () => {
 									style={{
 										height: '100%',
 									}}
-								>
-									{items2.map(item => (
-										<Menu.Item key={item.key} icon={item.icon}>
-											<Link to={item.label.props.to}>{item.label.props.children}</Link>
-										</Menu.Item>
-									))}
-
-								</Menu>
+									items={items2.map(item => ({
+										key: item.key,
+										icon: item.icon,
+										label: <Link to={item.label.props.to}>{item.label.props.children}</Link>,
+									}))}
+								/>
 							</Sider>
 						</Col>
 
@@ -157,7 +148,7 @@ const App = () => {
 										<Route path='/' element={<Profile/>}/>
 										<Route path='/chat/*' element={<ChatPage/>}/>
 
-										<Route path='/users/*'  element={<UsersPage  pageTitle={"Users"}/>}/>
+										<Route path='/users/*' element={<UsersPage pageTitle={"Users"}/>}/>
 
 										<Route path='/profile/:userId?' element={<Profile/>}/>
 										<Route path='/login/' element={<Login/>}/>

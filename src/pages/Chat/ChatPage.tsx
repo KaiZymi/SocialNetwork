@@ -1,13 +1,23 @@
 import React from "react";
 import {Chat} from "./Chat";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 
-export const ChatPage = () =>{
+const ChatPageOwn = () => {
+
+
 	return <>
-		<Chat />
+		<Chat/>
 	</>
 
 }
+
+export const ChatPage = withAuthRedirect(ChatPageOwn)
+
+
+
+
+
 
 
 

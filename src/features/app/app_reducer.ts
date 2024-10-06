@@ -1,16 +1,13 @@
-import {getAuthUserData, setAuthUsersData} from "../auth/auth_reducer";
-import {InferActionsTypes} from "../store";
+import {getAuthUserData} from "../auth/auth_reducer";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {authAPI} from "../../api/auth-api";
-import {ResultCodesEnum} from "../../api/api";
 
 
 let initialState = {
-    initialized: false
+	initialized: false
 };
 
-export const initializeApp = createAsyncThunk('app/initializeApp', async (_, {dispatch}:any) =>{
-	let promise =  dispatch(getAuthUserData())
+export const initializeApp = createAsyncThunk('app/initializeApp', async (_, {dispatch}: any) => {
+	let promise = dispatch(getAuthUserData())
 
 	Promise.all([promise])
 		.then(() => {
@@ -22,7 +19,7 @@ export const initializeApp = createAsyncThunk('app/initializeApp', async (_, {di
 export const appSlice = createSlice({
 	name: 'app',
 	initialState,
-	reducers:{
+	reducers: {
 		initializedSuccess: (state) => {
 			state.initialized = true
 		}
@@ -56,7 +53,6 @@ export const {initializedSuccess} = appSlice.actions
 // export const actions = {
 //     initializedSuccess: () => ({ type: 'SN/APP/INITIALIZED_SUCCESS'})
 // }
-
 
 
 // type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, initializedSuccessType>

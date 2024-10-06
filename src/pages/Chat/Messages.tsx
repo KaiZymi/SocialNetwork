@@ -24,7 +24,7 @@ export const Messages: FC<{}> = () => {
 		if (isAutoScroll) {
 			setTimeout(() => {
 				messagesAnchorRef.current?.scrollIntoView({ behavior: "smooth" });
-			}, 500);
+			}, 200);
 		}
 	}, [messages, isAutoScroll]);
 

@@ -27,3 +27,11 @@ export enum ResultCodeForCaptcha{
     CaptchaIsRequired= 10
 }
 
+
+
+
+
+
+
+
+

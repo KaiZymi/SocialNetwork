@@ -1,4 +1,3 @@
-
 import {PhotosType, PostType, ProfileType} from "../../types/typeReducers";
 
 import {profileAPI} from "../../api/profile-api";
