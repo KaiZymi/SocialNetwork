@@ -1,19 +1,10 @@
-import {getAuthUserData} from "../auth/auth_reducer";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 
 let initialState = {
 	initialized: false
 };
 
-export const initializeApp = createAsyncThunk('app/initializeApp', async (_, {dispatch}: any) => {
-	let promise = dispatch(getAuthUserData())
-
-	Promise.all([promise])
-		.then(() => {
-			dispatch(initializedSuccess());
-		});
-})
 
 
 export const appSlice = createSlice({
@@ -27,45 +18,13 @@ export const appSlice = createSlice({
 })
 
 
-// export type initialStateType =  typeof initialState
-//
-// type ActionsType = InferActionsTypes<typeof actions>
 
 
-export const {initializedSuccess} = appSlice.actions
+export const {actions: appActions, reducer: appReducer} = appSlice
 
 
-// const appReducer = (state = initialState, action: ActionsType):initialStateType => {
-//     switch(action.type) {
-//         case 'SN/APP/INITIALIZED_SUCCESS':
-//             return {
-//                 ...state,
-// 				initialized: true
-//             }
-//
-//         default:
-//             return state;
-//     }
-// }
-//
-//
-//
-// export const actions = {
-//     initializedSuccess: () => ({ type: 'SN/APP/INITIALIZED_SUCCESS'})
-// }
 
 
-// type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, initializedSuccessType>
-
-// export const initializeApp = () => (dispatch:any) => {
-// 	let promise =  dispatch(getAuthUserData())
-//
-// 	Promise.all([promise])
-// 		.then(() => {
-// 			dispatch(actions.initializedSuccess());
-// 		});
-//
-// }
 
 
 

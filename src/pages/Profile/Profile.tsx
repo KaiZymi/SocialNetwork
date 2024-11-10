@@ -1,12 +1,13 @@
 import React, {FC, useEffect} from 'react';
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserProfile, getUserStatus, savePhoto, updateUserStatus} from "../../features/profile/profile_reducer";
 import {Navigate, useParams} from "react-router-dom";
 import {MyPosts} from "./MyPosts/MyPosts";
-import {getProfileSelector, getStatusSelector} from "../../features/profile/selector_profile";
+import {getStatusSelector} from "../../features/profile/selector_profile";
 import {getUserIdSelector} from "../../features/auth/selector_auth";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {useActions} from "../../lib/hooks/useActions";
+import {getUserProfile, getUserStatus, savePhoto, updateUserStatus} from "../../features/profile/profile_actions";
 
 
 const ProfilePage: FC<{}> = (props) => {
@@ -19,8 +20,8 @@ const ProfilePage: FC<{}> = (props) => {
 	let {userId} = useParams<{ userId: string }>();
 
 
-	const dispatch: any = useDispatch()
-
+	const {} = useActions()
+	const dispatch = useDispatch<any>()
 
 
 

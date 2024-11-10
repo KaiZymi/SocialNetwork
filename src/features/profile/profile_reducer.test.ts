@@ -1,5 +1,6 @@
-import {addPost, deletePost, profileSlice} from "./profile_reducer";
+import { profileSlice} from "./profile_reducer";
 import {PostType} from "../../types/typeReducers";
+import {useActions} from "../../lib/hooks/useActions";
 
 let state = {
 	posts: [
@@ -9,6 +10,8 @@ let state = {
     profile: null,
     status: ""
 }
+
+const {addPost, deletePost} = useActions()
 
 it('length of posts should be incremented', () =>{
 	let action = addPost("ouououo")

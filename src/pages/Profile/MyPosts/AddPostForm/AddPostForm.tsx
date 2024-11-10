@@ -2,15 +2,18 @@ import {maxLengthCreator, required} from "../../../../utils/validators/validatio
 import s from "../MyPosts.module.css";
 import React, {ChangeEvent, FC} from "react";
 import {Controller, useForm} from "react-hook-form";
-import {addPost} from "../../../../features/profile/profile_reducer";
+
 import {Button, Form, Input} from "antd";
 import {useDispatch} from "react-redux";
+import {useActions} from "../../../../lib/hooks/useActions";
 
 const {TextArea} = Input;
 
 export const AddPostForm: FC<{}> = (props) => {
 	const {control, handleSubmit} = useForm<any>({mode: "onChange"})
 	const dispatch = useDispatch()
+
+	const {addPost} = useActions()
 
 	const addPostCreator = (values: AddPostFormValuesType) => {
 		dispatch(addPost(values.newPostText))

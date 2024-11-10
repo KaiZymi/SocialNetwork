@@ -5,7 +5,7 @@ import {Link, Route, Routes, useLocation} from "react-router-dom";
 import React, {Suspense, useEffect, useState} from "react";
 import {Login} from "./pages/Login/Login";
 import {useDispatch, useSelector} from "react-redux";
-import {initializeApp} from "./features/app/app_reducer";
+
 import Preloader from "./common/preloader/Preloader";
 import './assets/styles/global.css'
 
@@ -21,6 +21,7 @@ import {Col, Layout, Menu, Row, theme} from 'antd';
 import {Header} from "./pages/Header/Header";
 import {ChatPage} from "./pages/Chat/ChatPage";
 import {Profile} from "./pages/Profile/Profile";
+import {initializeApp} from "./features/app/app_actions";
 
 
 const {Content, Footer, Sider} = Layout;
@@ -76,7 +77,7 @@ const App = () => {
 
 	useEffect(() => {
 		dispatch(initializeApp())
-	}, []);
+	}, [dispatch]);
 
 
 	useEffect(() => {
@@ -90,11 +91,14 @@ const App = () => {
 		}
 	}, [location]);
 
+	if (!initialized) {
+		return <Preloader />;
+	}
 
 	return (
 
 		<Layout>
-			{!initialized ? <Preloader/> : null}
+
 			<Header/>
 
 			<Content

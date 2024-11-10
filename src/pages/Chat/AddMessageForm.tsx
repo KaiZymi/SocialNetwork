@@ -1,9 +1,11 @@
 import React, {FC, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {sendMessage} from "../../features/chat/chat_reducer";
+
 import {getStatusSelector} from "../../features/chat/selector_chat";
 import {Button, Input} from "antd";
 import {SendOutlined} from "@ant-design/icons";
+import {useActions} from "../../lib/hooks/useActions";
+import {sendMessage} from "../../features/chat/chat_actions";
 
 
 const {TextArea} = Input
@@ -15,7 +17,7 @@ export const AddMessageForm: FC<{}> = ({}) => {
 	const status = useSelector(getStatusSelector)
 
 
-	const dispatch: any = useDispatch()
+	const dispatch:any = useDispatch()
 
 
 	const sendMessageHandler = () => {

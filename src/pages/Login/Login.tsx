@@ -1,6 +1,6 @@
 import React, {FC, useCallback, useMemo, useState} from "react";
 import {maxLengthCreator, required} from "../../utils/validators/validations";
-import {login} from "../../features/auth/auth_reducer";
+
 import {useDispatch, useSelector} from "react-redux";
 
 
@@ -8,6 +8,8 @@ import {Navigate} from "react-router-dom";
 import {Control, Controller, FormState, useForm, UseFormTrigger} from "react-hook-form";
 import {getCaptchaURLSelector, isAuthSelector} from "../../features/auth/selector_auth";
 import {Button, Checkbox, Form, Input} from "antd";
+import {useActions} from "../../lib/hooks/useActions";
+import {login} from "../../features/auth/auth_actions";
 
 interface InputFieldProps {
 	name: keyof LoginFormValuesType
@@ -74,13 +76,13 @@ export const Login = () => {
 
 	const [serverError, setServerError] = useState<string | null>(null)
 
-	const dispatch: any = useDispatch();
+	const dispatch:any = useDispatch()
 	const isAuth = useSelector(isAuthSelector);
 	const captchaURL = useSelector(getCaptchaURLSelector)
 
 
 	const loginPush = useCallback(async (email: string, password: string, rememberMe: boolean, captcha: string) => {
-		const data = await dispatch(login({email, password, rememberMe, captcha}));
+		const data = await dispatch(login({email, password, rememberMe, captcha}))
 		setServerError(data.error ? data.error.message : null);
 	}, [dispatch]);
 

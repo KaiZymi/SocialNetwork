@@ -1,5 +1,5 @@
 import s from './ProfileInfo.module.css'
-import React, {ChangeEvent, FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 // @ts-ignore
 import userPhoto from "../../../assets/images/user.png";
 import Preloader from "../../../common/preloader/Preloader";
@@ -7,13 +7,13 @@ import {ProfileStatus} from "./ProfileStatus"
 import {ProfileDataForm} from "./ProfileData/ProfileDataForm";
 import {ProfileType} from "../../../types/typeReducers";
 import ProfileData from "./ProfileData/ProfileData";
-import {getUserProfile, saveProfile} from "../../../features/profile/profile_reducer";
+
 import {useDispatch, useSelector} from "react-redux";
-import {FieldValues} from "react-hook-form";
-import {Button, Input, Upload} from "antd";
-import { UploadOutlined } from '@ant-design/icons';
+import {Button, Upload} from "antd";
+import {UploadOutlined} from '@ant-design/icons';
 import {getProfileSelector} from "../../../features/profile/selector_profile";
 import store from "../../../features/store";
+import {getUserProfile, saveProfile} from "../../../features/profile/profile_actions";
 
 type PropsType = {
     status: string

@@ -3,8 +3,10 @@ import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {currentUserSelector, isAuthSelector} from "../../features/auth/selector_auth";
 import {Avatar, Button, Col, Layout, Menu, Row} from "antd";
-import {logout} from "../../features/auth/auth_reducer";
+
 import {UserOutlined} from "@ant-design/icons";
+import {useActions} from "../../lib/hooks/useActions";
+import {logout} from "../../features/auth/auth_actions";
 
 // const items1: MenuProps['items'] = ['Developers'].map((key) => ({
 //     key,
@@ -19,15 +21,16 @@ import {UserOutlined} from "@ant-design/icons";
 //
 //     </Link>
 // </div>
+
 export const Header = () => {
 
 	const isAuth = useSelector(isAuthSelector)
 	const login = useSelector(currentUserSelector)
 
-	const dispatch: any = useDispatch();
+	const {} = useActions();
 
 	const logoutCallBack = () => {
-		dispatch(logout())
+		logout()
 	}
 
 	const {Header} = Layout;

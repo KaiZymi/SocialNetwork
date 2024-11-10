@@ -5,7 +5,7 @@ import styles from "./Users.module.css";
 import User from "./User";
 import Paginator from "../../common/Paginators/Paginator";
 import {UsersSearchForm} from "./UsersSearchForm";
-import {FilterType, follow, requestUsers, unfollow} from "../../features/users/users_reducer";
+import {FilterType} from "../../features/users/users_reducer";
 import {
 	getCurrentPage,
 	getFollowingInProgress,
@@ -16,6 +16,7 @@ import {
 } from "../../features/users/selector_users";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useSearchParams} from "react-router-dom";
+import {follow, requestUsers, unfollow} from "../../features/users/users_actions";
 
 
 export const Users = () => {
