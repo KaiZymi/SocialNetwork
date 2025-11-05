@@ -9,6 +9,7 @@ import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {useActions} from "../../lib/hooks/useActions";
 import {getUserProfile, getUserStatus, savePhoto, updateUserStatus} from "../../features/profile/profile_actions";
 
+import s from './Profile.module.css'
 
 const ProfilePage: FC<{}> = (props) => {
 
@@ -65,7 +66,7 @@ const ProfilePage: FC<{}> = (props) => {
 
 
 	return (
-		<div>
+		<div className={s.profile}>
 			<ProfileInfo status={status}
 						 updateUserStatus={updateUserStatusCreator}
 						 isOwner={isOwner}

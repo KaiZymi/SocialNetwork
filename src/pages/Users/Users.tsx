@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 
 import styles from "./Users.module.css";
 
@@ -17,6 +17,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {follow, requestUsers, unfollow} from "../../features/users/users_actions";
+import {useActions} from "../../lib/hooks/useActions";
 
 
 export const Users = () => {
@@ -28,6 +29,8 @@ export const Users = () => {
 	const filter = useSelector(getUsersFilter)
 	const followingInProgress = useSelector(getFollowingInProgress)
 
+	const [isInitialized, setIsInitialized] = useState(false);
+
 	const dispatch: any = useDispatch()
 	const history = useNavigate()
 	const [searchParams] = useSearchParams()
@@ -37,6 +40,7 @@ export const Users = () => {
 			pathname: "/users",
 			search: `?term=${filter.term}&friend=${filter.friend}&page=${currentPage}`
 		})
+
 	}, [filter, currentPage]);
 
 	useEffect(() => {
@@ -65,7 +69,9 @@ export const Users = () => {
 		}
 
 		dispatch(requestUsers({currentPage: actualPage, pageSize, filter: actualFilter}))
-	}, []);
+
+	}, [dispatch]);
+
 
 	const onPageChanged = useCallback((pageNumber: number) => {
 		dispatch(requestUsers({currentPage: pageNumber, pageSize, filter}))
@@ -87,7 +93,7 @@ export const Users = () => {
 
 	return <div className={styles.cheloveniki}>
 
-		<UsersSearchForm onFilterChanged={onFilterChanged}/>
+		<UsersSearchForm onFilterChanged={onFilterChanged} filter={filter}/>
 		<Paginator currentPage={currentPage} onPageChanged={onPageChanged}
 				   totalItemsCount={totalUsersCount} pageSize={pageSize}/>
 

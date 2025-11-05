@@ -16,7 +16,7 @@ export const AddPostForm: FC<{}> = (props) => {
 	const {addPost} = useActions()
 
 	const addPostCreator = (values: AddPostFormValuesType) => {
-		dispatch(addPost(values.newPostText))
+		addPost(values.newPostText)
 	}
 
 	const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -31,28 +31,31 @@ export const AddPostForm: FC<{}> = (props) => {
 		<div className={s.postsBlock}>
 			<Form onFinish={handleSubmit(addPostCreator)}>
 
-				<Controller
-					name={"newPostText"}
-					control={control}
-					rules={{
-						validate: {
-							required,
-							maxLength
+				<div className={s.postsBlock_message}>
+					<Controller
+						name={"newPostText"}
+						control={control}
+						rules={{
+							validate: {
+								required,
+								maxLength
 
-						}
-					}}
+							}
+						}}
 
-					render={({field}) =>
-						<TextArea
-							placeholder={"Write messages"}
-							style={{resize: 'none', width: "400px", overflow: 'hidden'}}
-							onInput={handleInput}
-							{...field}
-						/>}
+						render={({field}) =>
+							<TextArea
+								placeholder={"Write messages"}
+								style={{resize: 'none', width: "400px", overflow: 'hidden'}}
+								onInput={handleInput}
+								{...field}
+							/>}
 
-				/>
+					/>
+				</div>
 
-				<div>
+
+				<div className={s.postsBlock_button}>
 					<Button htmlType="submit">Add post</Button>
 				</div>
 

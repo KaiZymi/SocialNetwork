@@ -17,6 +17,8 @@ export const requestUsers = createAsyncThunk('users/requestUsers', async (payloa
 	dispatch(usersActions.toggleIsFetching(false))
 	dispatch(usersActions.setUsers(data.items))
 	dispatch(usersActions.setTotalUserCount(data.totalCount))
+
+
 })
 
 const _followUnfollowFlow = async (dispatch: Dispatch<any>,

@@ -21,12 +21,12 @@ export const Messages: FC<{}> = () => {
 
 
 	useEffect(() => {
-		if (isAutoScroll) {
+		if (isAutoScroll || messages.length > 0) {
 			setTimeout(() => {
 				messagesAnchorRef.current?.scrollIntoView({ behavior: "smooth" });
 			}, 200);
 		}
-	}, [messages, isAutoScroll]);
+	}, [messages]);
 
 
 	return <div style={{height: "400px", overflowY: 'auto'}} onScroll={scrollHandler}>

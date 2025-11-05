@@ -16,23 +16,19 @@ import store from "../../../features/store";
 import {getUserProfile, saveProfile} from "../../../features/profile/profile_actions";
 
 type PropsType = {
-    status: string
-    updateUserStatus: (status:string) => void
-    isOwner: boolean
-    savePhoto: (file: File) => void
+	status: string
+	updateUserStatus: (status: string) => void
+	isOwner: boolean
+	savePhoto: (file: File) => void
 
 }
-
-
-
 
 
 const ProfileInfo: FC<PropsType> = (props) => {
 
 
-
 	const [editMode, setEditMode] = useState(false)
-	const dispatch:any = useDispatch();
+	const dispatch: any = useDispatch();
 	const [uploading, setUploading] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('');
 	const profile = useSelector(getProfileSelector)
@@ -64,13 +60,13 @@ const ProfileInfo: FC<PropsType> = (props) => {
 	}
 
 
-	let onMainPhotoSelected = (file:File) => {
+	let onMainPhotoSelected = (file: File) => {
 		setUploading(true)
 		props.savePhoto(file)
 		setUploading(false)
 	}
 
-	let openEditMode = () =>{
+	let openEditMode = () => {
 		setEditMode(true)
 	}
 	let closeEditMode = () => {
@@ -86,47 +82,59 @@ const ProfileInfo: FC<PropsType> = (props) => {
 	}
 
 
-
 	return (
 		<>
-			{loading ?  <Preloader/> : null}
+			{loading ? <Preloader/> : null}
 			<div className={s.description_block}>
-				<img className={s.img} src={profile?.photos.large != null ? profile.photos.large : userPhoto}
-					 alt="ava"/>
-				{props.isOwner &&
-					<Upload
-                        showUploadList={false}
-						customRequest={({file, onSuccess}) => {
-							onMainPhotoSelected(file as File)
-							if(onSuccess){
-								onSuccess(file)
-							}
+				<div className={s.description_block_image}>
+					<img className={s.ownImg} src={profile?.photos.large != null ? profile.photos.large : userPhoto}
+						 alt="ava"/>
+					{props.isOwner &&
+                        <Upload
+                            showUploadList={false}
 
-						}}
-						beforeUpload={beforeUpload}
-					>
-                    	<Button loading={uploading}  icon={<UploadOutlined />}>Загрузить фото</Button>
-					</Upload>
-				}
+                            customRequest={({file, onSuccess}) => {
+								onMainPhotoSelected(file as File)
+								if (onSuccess) {
+									onSuccess(file)
+								}
 
-				{editMode
-					? <ProfileDataForm  profile={profile} toCloseEditMode = {closeEditMode} onSubmit={onSubmit}/>
-					: <ProfileData toOpenEditMode={openEditMode} toCloseEditMode = {closeEditMode}
-								   profile={profile} isOwner={props.isOwner}/>
-				}
+							}}
+                            beforeUpload={beforeUpload}
+                        >
+                            <Button loading={uploading} className={s.description_block_image_button}
+                                    icon={<UploadOutlined/>}>Загрузить фото</Button>
+                        </Upload>
+					}
+				</div>
+				<div className={s.description_block_info}>
 
-				<ProfileStatus updateUserStatus={props.updateUserStatus}
-							   status={props.status} />
+
+					{editMode
+						? <ProfileDataForm profile={profile}
+										   toCloseEditMode={closeEditMode}
+										   onSubmit={onSubmit}/>
+
+						: <ProfileData toOpenEditMode={openEditMode}
+									   toCloseEditMode={closeEditMode}
+									   status={props.status}
+									   updateUserStatus={props.updateUserStatus}
+									   profile={profile}
+									   isOwner={props.isOwner}/>
+					}
+
+
+				</div>
+
+
 			</div>
 		</>
 	)
 }
 
 
-
-
 export default ProfileInfo
 
 function getState() {
-    throw new Error('Function not implemented.');
+	throw new Error('Function not implemented.');
 }

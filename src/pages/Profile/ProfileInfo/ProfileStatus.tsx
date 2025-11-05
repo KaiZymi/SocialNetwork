@@ -2,7 +2,7 @@ import React, {ChangeEvent, FC, useEffect, useState} from 'react';
 import {useDispatch} from "react-redux";
 import {Input} from "antd";
 import {updateUserStatus} from "../../../features/profile/profile_actions";
-
+import s from "./ProfileInfo.module.css"
 
 type PropsType = {
     updateUserStatus: (status:string) => void,
@@ -17,10 +17,10 @@ export const ProfileStatus: FC<PropsType> = (props) =>{
 
     useEffect(() => {
         setStatus(props.status);
-    }, [status]);
+    }, [props.status]);
 
 
-    const onStatusChange = (e:ChangeEvent<HTMLInputElement>) => {
+    let onStatusChange = (e:ChangeEvent<HTMLInputElement>) => {
         setStatus(e.currentTarget.value)
     }
 
@@ -35,18 +35,18 @@ export const ProfileStatus: FC<PropsType> = (props) =>{
         dispatch(updateUserStatus(status))
     }
 
-    return <>
+    return <div className={s.status}>
         {!editMode &&
-            <div >
-                <b onDoubleClick={() => {activateEditMode()}}> {props.status || 'status'} </b>
-            </div>
+
+                <b className={s.status_text} onDoubleClick={() => {activateEditMode()}}> {props.status || 'status'} </b>
+
         }
         {editMode &&
-            <div>
-                <Input style={{width:'250px'}} onChange={onStatusChange}  autoFocus={true} onBlur={deactivateEditMode} value={status}/>
-            </div>
+
+                <Input style={{width:'250px'}} onChange={onStatusChange}  autoFocus={true} onBlur={deactivateEditMode} defaultValue={props.status}/>
+
         }
-    </>
+    </div>
 
 
 }

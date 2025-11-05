@@ -26,11 +26,11 @@ export const Header = () => {
 
 	const isAuth = useSelector(isAuthSelector)
 	const login = useSelector(currentUserSelector)
+	const dispatch:any = useDispatch()
 
-	const {} = useActions();
 
 	const logoutCallBack = () => {
-		logout()
+		dispatch(logout())
 	}
 
 	const {Header} = Layout;

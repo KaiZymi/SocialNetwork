@@ -4,19 +4,21 @@ import {ContactsType, ProfileType} from "../../../../types/typeReducers";
 import {Controller, SubmitErrorHandler, useForm} from "react-hook-form";
 import {required} from "../../../../utils/validators/validations";
 import {Button, Checkbox, Form, Input} from "antd";
+import {ProfileStatus} from "../ProfileStatus";
 
 
 type OwnPropsType = {
 	profile: ProfileType,
 	onSubmit: (data: ProfileType) => void
 	toCloseEditMode: () => void
+
 };
 
 
 type ProfileKeysType = keyof ContactsType
 
 
-export const ProfileDataForm: FC<OwnPropsType> = ({profile, onSubmit, toCloseEditMode}) => {
+export const ProfileDataForm: FC<OwnPropsType> = ({profile, onSubmit, toCloseEditMode,}) => {
 
 	const {control, handleSubmit, formState: {errors}} = useForm<ProfileType>({
 		mode: "onChange"
@@ -29,10 +31,6 @@ export const ProfileDataForm: FC<OwnPropsType> = ({profile, onSubmit, toCloseEdi
 
 	return <Form onFinish={handleSubmit(onSubmit, error)}>
 
-		<div>
-			<Button htmlType={'submit'}>save</Button>
-			<Button onClick={toCloseEditMode}>close</Button>
-		</div>
 
 		<div>
 			<b>Full name</b> :
@@ -58,6 +56,8 @@ export const ProfileDataForm: FC<OwnPropsType> = ({profile, onSubmit, toCloseEdi
 
 			{errors.fullName && <span style={{color: 'red'}}>Full Name is required</span>}
 		</div>
+
+
 
 		<div>
 			<b>About me</b>:
@@ -137,7 +137,7 @@ export const ProfileDataForm: FC<OwnPropsType> = ({profile, onSubmit, toCloseEdi
 
 					<Controller
 						name={`contacts.${key as ProfileKeysType}`}
-						defaultValue={`contacts.${key as ProfileKeysType}`}
+						defaultValue={''}
 						control={control}
 						render={({field}) => <Input
 							placeholder={`contacts.${key}`}
@@ -150,6 +150,11 @@ export const ProfileDataForm: FC<OwnPropsType> = ({profile, onSubmit, toCloseEdi
 				</b>
 			</div>
 		})}
+		</div>
+
+		<div>
+			<Button htmlType={'submit'}>save</Button>
+			<Button onClick={toCloseEditMode}>close</Button>
 		</div>
 
 	</Form>

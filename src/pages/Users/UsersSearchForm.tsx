@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, useEffect} from "react";
 import {FilterType} from "../../features/users/users_reducer";
 import {useSelector} from "react-redux";
 import {getUsersFilter} from "../../features/users/selector_users";
@@ -6,10 +6,10 @@ import {Controller, useForm} from "react-hook-form";
 import {Button, Form, Input, Select} from "antd";
 
 
-const usersSearchFormValidate = () => {
-	const errors = {};
-	return errors
-}
+// const usersSearchFormValidate = () => {
+// 	const errors = {};
+// 	return errors
+// }
 
 type FriendType = "true" | "false" | "null";
 type FormType = {
@@ -19,12 +19,20 @@ type FormType = {
 
 type PropsType = {
 	onFilterChanged: (filter: FilterType) => void
+	filter: FilterType
 }
 
-export const UsersSearchForm: FC<PropsType> = React.memo((props) => {
+export const UsersSearchForm: FC<PropsType> = React.memo(({onFilterChanged, filter}) => {
 
-	const filter = useSelector(getUsersFilter)
-	const {control, handleSubmit} = useForm<FormType>()
+	// const filter = useSelector(getUsersFilter)
+	const {control, handleSubmit, reset  } = useForm<FormType>()
+
+	useEffect(() => {
+		reset({
+			term: filter.term,
+			friend: String(filter.friend) as FriendType,
+		});
+	}, [filter, reset]);
 
 	const submit = (values: FormType) => {
 		//Making a conversion string to boolean
@@ -33,7 +41,7 @@ export const UsersSearchForm: FC<PropsType> = React.memo((props) => {
 			friend: values.friend === "null" ? null : values.friend === "true"
 		}
 
-		props.onFilterChanged(filter)
+		onFilterChanged(filter)
 
 	}
 
@@ -44,21 +52,20 @@ export const UsersSearchForm: FC<PropsType> = React.memo((props) => {
 		>
 			<Controller
 				name={'term'}
-				defaultValue={filter.term}
 				control={control}
-				render={({field: {onChange}}) =>
+				render={({field: {onChange,value}}) =>
 					<Input
+						value={value}
 						style={{maxWidth: 150}}
 						onChange={onChange}
 					/>}
 			/>
 			<Controller
 				name={'friend'}
-				defaultValue={String(filter.friend) as FriendType}
 				control={control}
-				render={({field: {onChange}}) =>
+				render={({field: {onChange,value}}) =>
 					<Select
-						defaultValue={'null'}
+						value={value}
 						style={{width: 150}}
 						onChange={onChange}
 						options={[

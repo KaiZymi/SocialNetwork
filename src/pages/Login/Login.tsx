@@ -20,6 +20,8 @@ interface InputFieldProps {
 	setServerError: (error: string | null) => void
 	trigger: UseFormTrigger<LoginFormValuesType>
 	formState: FormState<LoginFormValuesType>
+	InputComponent: typeof Input | typeof Input.Password;
+	defaultValue: string
 }
 
 const InputField: FC<InputFieldProps> = React.memo(({
@@ -30,25 +32,31 @@ const InputField: FC<InputFieldProps> = React.memo(({
 														setServerError,
 														control,
 														formState,
-														trigger
+														trigger,
+														InputComponent = Input,
+														defaultValue
 													}) => {
 	const {errors} = formState
-	const maxLength = rules.maxLength ? rules.maxLength : ""
+	const maxLength = typeof rules.maxLength === "number" ? rules.maxLength : undefined;
 
 	return <>
 		<Controller
 			name={name}
 			control={control}
 			rules={rules}
-			render={({field: {onBlur, onChange}}) => (
-				<Input
+			defaultValue={defaultValue}
+			render={({field: {onBlur, onChange,value}}) => (
+				<InputComponent
 					type={type}
+					defaultValue={defaultValue}
 					onBlur={async () => {
 						onBlur()
 						await trigger(name)
 					}}
 					onChange={async (e) => {
-						onChange(e)
+						if (e.target.value.length <= (rules.maxLength || Infinity)) {
+							onChange(e);
+						}
 						await trigger(name)
 						if (serverError) {
 							setServerError(null)
@@ -94,7 +102,7 @@ export const Login = () => {
 
 	}, [loginPush]);
 
-	const renderInput = useCallback((name: keyof LoginFormValuesType, type = "text", validationRules: any) => {
+	const renderInput = useCallback((name: keyof LoginFormValuesType, type = "text", InputComponent: typeof Input | typeof Input.Password, defaultValue:string, validationRules: any) => {
 
 		return (
 			<InputField
@@ -106,13 +114,15 @@ export const Login = () => {
 				setServerError={setServerError}
 				trigger={trigger}
 				formState={formState}
+				InputComponent={InputComponent}
+				defaultValue = {defaultValue}
 
 			/>
 		)
 
-	}, [setServerError])
+	}, [setServerError, control, trigger, formState])
 
-	const maxLength = useMemo(() => maxLengthCreator(30), []);
+	const maxLengthError = useMemo(() => maxLengthCreator(30), []);
 
 
 	if (isAuth) {
@@ -133,22 +143,25 @@ export const Login = () => {
 						label={'email'}
 					>
 
-						{renderInput('email', 'text', {
+						{renderInput('email', 'text', Input,'mark-test-api@mail.ru', {
+							maxLength:30,
 							validate: {
 								required,
-								maxLength
+								maxLengthError
 							}
-						})}
+						}
+						)}
 
 					</Form.Item>
 
 					<Form.Item
 						label={'password'}
 					>
-						{renderInput('password', 'password', {
+						{renderInput('password', 'password', Input.Password, 'test123', {
 							validate: {
 								required,
-							}
+							},
+
 						})}
 
 						{serverError && <div style={{color: 'red'}}>{serverError}</div>}

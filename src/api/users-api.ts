@@ -11,8 +11,8 @@ type GetUsersItemsType = {
 }
 
 export const usersAPI = {
-    getUsers(currentPage = 1, pageSize = 2, term: string, friend: null | boolean = null) {
-        return instance.get<GetUsersItemsType>(`users?page=${currentPage}&count=${pageSize}` + (term ? `&term=${term}` : '') + (friend === null ? '' : `&friend=${friend}`))
+    getUsers(currentPage = 1, pageSize = 2, term = '', friend: null | boolean = null) {
+        return instance.get<GetUsersItemsType>(`users?page=${currentPage}&count=${pageSize}&term=${term}` + (friend === null ? '' : `&friend=${friend}`))
             .then(response => {
                 return response.data;
             });
