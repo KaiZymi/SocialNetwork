@@ -1,4 +1,4 @@
-import preloader from "../../assets/images/1488.gif";
+import preloader from "../../app/assets/images/1488.gif";
 import React, {FC} from "react";
 
 

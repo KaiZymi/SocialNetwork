@@ -2,7 +2,7 @@
 // import styles from "./FormsControls.module.css"
 // import {WrappedFieldMetaProps, WrappedFieldProps} from "redux-form/lib/Field";
 //
-// import {FieldValidatorType} from "../../utils/validators/validations";
+// import {FieldValidatorType} from "../../model/validators/validations";
 //
 // type FormControlPropsType = {
 //     meta: WrappedFieldMetaProps
