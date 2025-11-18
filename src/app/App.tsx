@@ -153,7 +153,7 @@ const App = () => {
                     textAlign: 'center',
                 }}
             >
-                Created by Mark Valishin ©{new Date().getFullYear()}
+                Created by Mark  Valishin ©{new Date().getFullYear()}
             </Footer>
         </Layout>
 
