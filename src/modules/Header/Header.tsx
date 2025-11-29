@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {currentUserSelector, isAuthSelector} from "../Login/model/selector_auth";
-import {Avatar, Button, Col, Layout, Menu, Row} from "antd";
+import {Avatar, Button, Layout, Menu, Space, Typography} from "antd";
 
 import {UserOutlined} from "@ant-design/icons";
 import {logout} from "../Login/model/auth_actions";
@@ -11,64 +11,89 @@ import {useAppDispatch} from "../../shared/lib/redux";
 
 export const Header = () => {
 
-	const isAuth = useSelector(isAuthSelector)
-	const login = useSelector(currentUserSelector)
-	const dispatch = useAppDispatch()
+    const isAuth = useSelector(isAuthSelector)
+    const login = useSelector(currentUserSelector)
+    const dispatch = useAppDispatch()
 
 
-	const logoutCallBack = () => {
-		dispatch(logout())
-	}
+    const handleLogout = () => {
+        dispatch(logout())
+    }
 
-	const {Header} = Layout;
+    const {Header: AntHeader} = Layout;
+    const { Text } = Typography;
 
+    return (
+        <AntHeader style={{
+            height: '64px',
+            padding: '0 48px',
+            position: 'sticky',
+            top: 0,
+            zIndex: 1000
+        }}>
+            <div style={{
+                maxWidth: '1440px',
+                margin: '0 auto',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+            }}>
+                <Link to="/" style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    height: '40px',
+                    flexShrink: 0
+                }}>
+                    <img
+                        src={`${process.env.PUBLIC_URL}/logo192.png`}
+                        alt="Logo"
+                        style={{
+                            height: '100%',
+                            display: 'block'
+                        }}
+                    />
+                </Link>
 
-	return (
-		<Header>
-			<div style={{width: '1440px', margin: '0 auto'}}>
-				<Row>
+                <Menu
+                    theme="dark"
+                    mode="horizontal"
+                    disabledOverflow
+                    style={{
+                        background: 'transparent',
+                        borderBottom: 'none',
+                        flex: 1,
+                        minWidth: 0,
+                        justifyContent: 'center',
+                        margin: '0 24px'
+                    }}
+                />
 
-					<Col span={4}>
-						<div style={{height: '50px', alignContent: 'center'}}>
-							<Link to={'/'} style={{height: '100%'}}>
-								{/*<svg >*/}
-								{/*    <use xlinkHref={`${process.env.PUBLIC_URL}/logo.svg`} />*/}
-								{/*</svg>*/}
-								<img src={`${process.env.PUBLIC_URL}/logo192.png`} alt=""
-									 style={{height: '100%'}}/>
-							</Link>
-						</div>
-
-					</Col>
-
-					<Col span={16}>
-
-						<Menu
-							theme="dark"
-							mode="horizontal"
-							style={{
-								flex: 1,
-								minWidth: 0,
-							}}
-						/>
-
-
-					</Col>
-
-					<Col span={4}>
-						{isAuth
-							? <div style={{textAlign: 'end'}}>
-								<Avatar icon={<UserOutlined/>}/>
-								{login} <Button onClick={logoutCallBack}>log out</Button>
-							</div>
-							: <div style={{textAlign: 'end'}}><Link to={'/login'}>Login</Link></div>}
-					</Col>
-				</Row>
-			</div>
-
-
-		</Header>
-
-
-	)
+                <Space style={{ flexShrink: 0 }}>
+                    {isAuth ? (
+                        <>
+                            <Avatar
+                                size="small"
+                                icon={<UserOutlined />}
+                            />
+                            <Text style={{ color: 'rgba(255, 255, 255, 0.85)' }}>
+                                {login}
+                            </Text>
+                            <Button
+                                type="primary"
+                                size="small"
+                                onClick={handleLogout}
+                            >
+                                Выйти
+                            </Button>
+                        </>
+                    ) : (
+                        <Button type="primary" size="small">
+                            <Link to="/login">Войти</Link>
+                        </Button>
+                    )}
+                </Space>
+            </div>
+        </AntHeader>
+    );
 }

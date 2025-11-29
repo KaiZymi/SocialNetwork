@@ -91,6 +91,7 @@ const App = () => {
                         padding: '24px 0',
                         background: colorBgContainer,
                         borderRadius: borderRadiusLG,
+
                     }}
                 >
                     <Row>
@@ -121,7 +122,7 @@ const App = () => {
                                 style={{
                                     padding: '0 24px',
                                     minHeight: 280,
-                                    width: '100%'
+
                                 }}
                             >
                                 <Suspense fallback={<div> loading... </div>}>
